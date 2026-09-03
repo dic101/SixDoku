@@ -1,0 +1,28 @@
+# Build
+.build/
+DerivedData/
+*.xccheckout
+*.xcuserdata
+xcuserdata/
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# Xcode
+project.xcworkspace/xcuserdata/
+*.xcscmblueprint
+*.xcodeproj/xcuserdata/
+*.xcodeproj/project.xcworkspace/xcuserdata/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Swift Package
+.swiftpm/
+
+# Env
+*.env
+.env
