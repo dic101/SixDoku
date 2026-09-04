@@ -41,6 +41,7 @@ Specs live in **Obsidian first**, repo second:
 - Single Xcode project via `project.yml` + `xcodegen` (not naked SPM)
 - Dev CloudKit container `iCloud.com.sixdoku.dev` (Development env), `CODE_SIGN_ENTITLEMENTS` in `project.yml:49`
 - Targets: `SharedCore`/`SharedServices` (`platform: auto`, watchOS+iOS), `SixDoku` (iOS 17), `SixDokuWatch` (watchOS 10)
+- **App Store name: `6Doku`** (2026-09-04 — "SixDoku" taken in App Store Connect; bundle IDs unchanged: `com.sixdoku.app` / `com.sixdoku.app.watch`; display-name rename pending decision)
 
 ## 6. Quick Links
 - Vault Product: `ca://s?q=PDD_SixDoku` etc. (if your Obsidian uses that scheme)
