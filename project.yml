@@ -62,7 +62,8 @@ targets:
         CFBundlePackageType: APPL
         CFBundleShortVersionString: "1.0"
         LSRequiresIPhoneOS: true
-        UILaunchStoryboardName: ""
+        UILaunchScreen:
+          UIColorName: LaunchBackground
         UISupportedInterfaceOrientations: ["UIInterfaceOrientationPortrait"]
         UISupportedInterfaceOrientations~ipad: ["UIInterfaceOrientationPortrait", "UIInterfaceOrientationLandscapeLeft", "UIInterfaceOrientationLandscapeRight"]
 

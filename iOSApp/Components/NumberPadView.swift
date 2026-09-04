@@ -31,6 +31,8 @@ public struct NumberPadView: View {
                         .clipShape(RoundedRectangle(cornerRadius: 8))
                 }
                 .disabled(isDisabled(num))
+                .accessibilityLabel("Place \(num)")
+                .accessibilityHint(isDisabled(num) ? "Not allowed in selected cell" : "Places \(num) in selected cell")
             }
             Button(action: {
                 HapticsService.lightTap()
@@ -42,6 +44,8 @@ public struct NumberPadView: View {
                     .background(Color.red.opacity(0.15))
                     .clipShape(RoundedRectangle(cornerRadius: 8))
             }
+            .accessibilityLabel("Erase entry")
+            .accessibilityHint("Clears the selected cell")
         }
         .padding()
     }

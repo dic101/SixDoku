@@ -20,6 +20,9 @@ public struct WatchPuzzleView: View {
                                 Rectangle().fill(sel ? Color.blue.opacity(0.4) : Color.white)
                                 if let val { Text("\(val)").font(.caption2) }
                             }
+                            .accessibilityElement(children: .ignore)
+                            .accessibilityLabel("Row \(row+1) Column \(col+1), \(val.map { String($0) } ?? "empty")")
+                            .accessibilityAddTraits(sel ? [.isButton, .isSelected] : .isButton)
                             .onTapGesture { viewModel.selectedCell = (row, col) }
                         }
                     }
@@ -37,17 +40,20 @@ public struct WatchPuzzleView: View {
                         }
                         .buttonStyle(.plain)
                         .font(.caption2)
+                        .accessibilityLabel("Place \(n)")
                     }
                     Button("x") {
                         viewModel.applyMove(row: cell.row, col: cell.col, symbol: nil)
                         viewModel.selectedCell = nil
                     }
+                    .accessibilityLabel("Erase entry")
                 }
                 .padding(2)
             }
 
             if viewModel.isCompleted {
                 Text("Done!").font(.caption).foregroundColor(.green)
+                    .accessibilityLabel("Puzzle completed")
             }
         }
     }

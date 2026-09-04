@@ -32,14 +32,16 @@ public struct SudokuGridView: View {
                             if let value {
                                 Text("\(value)")
                                     .font(.title3.monospacedDigit())
-                                    .accessibilityLabel("Row \(row+1) Column \(col+1), \(value)")
                             } else {
                                 Text("")
-                                    .accessibilityLabel("Row \(row+1) Column \(col+1), empty")
                             }
                         }
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                         .aspectRatio(1, contentMode: .fit)
+                        .accessibilityElement(children: .ignore)
+                        .accessibilityLabel("Row \(row+1) Column \(col+1), \(value.map { String($0) } ?? "empty")")
+                        .accessibilityAddTraits(isSelected ? [.isButton, .isSelected] : .isButton)
+                        .accessibilityHint("Double tap to select")
                         .onTapGesture { onSelect(row, col) }
                     }
                 }
