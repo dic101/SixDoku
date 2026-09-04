@@ -16,7 +16,6 @@ targets:
   SharedCore:
     type: framework
     platform: auto
-    deploymentTarget: "17.0"
     sources: [SharedCore]
     settings:
       base:
@@ -27,7 +26,6 @@ targets:
   SharedServices:
     type: framework
     platform: auto
-    deploymentTarget: "17.0"
     sources: [SharedServices]
     dependencies:
       - target: SharedCore
@@ -51,6 +49,8 @@ targets:
       base:
         INFOPLIST_FILE: iOSApp/Info.plist
         CODE_SIGN_ENTITLEMENTS: iOSApp/SixDoku.entitlements
+        DEVELOPMENT_TEAM: S332V7BC69
+        CODE_SIGN_STYLE: Automatic
         LD_RUNPATH_SEARCH_PATHS: ["$(inherited)", "@executable_path/Frameworks"]
     info:
       path: iOSApp/Info.plist
@@ -79,6 +79,8 @@ targets:
       base:
         INFOPLIST_FILE: WatchApp/Info.plist
         CODE_SIGN_ENTITLEMENTS: WatchApp/SixDokuWatch.entitlements
+        DEVELOPMENT_TEAM: S332V7BC69
+        CODE_SIGN_STYLE: Automatic
         LD_RUNPATH_SEARCH_PATHS: ["$(inherited)", "@executable_path/Frameworks"]
     info:
       path: WatchApp/Info.plist

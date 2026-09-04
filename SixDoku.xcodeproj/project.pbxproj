@@ -42,6 +42,7 @@
 		7B3E97E52CE092E5424854C5 /* SixDokuApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97608D74DD90575867853C9 /* SixDokuApp.swift */; };
 		8110655176AA02A9EA34D6CE /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE455B61FC7F650A376DC913 /* CloudKit.framework */; };
 		8196089DEF017AD6E03654C1 /* GeneratorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3FF7B28899FC91F2BCBF13E /* GeneratorTests.swift */; };
+		8B7579AC5DCAF082EB07CF70 /* SixDokuWatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C71BC36FE43385B4A71B83BB /* SixDokuWatchApp.swift */; };
 		8B895FCB48ACC6658391A004 /* SudokuGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2CE0E557CDEB91BE36F9993 /* SudokuGridView.swift */; };
 		8CA9CDF228E450BF15D64598 /* PersistenceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF04BA9466147E129D8349C /* PersistenceService.swift */; };
 		8D103D0201724A0580EDA4A2 /* GridUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A40C9AF90820435389655FE /* GridUtils.swift */; };
@@ -206,6 +207,7 @@
 		B99DD1E6916D4B5780004240 /* WatchFormatSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchFormatSelectorView.swift; sourceTree = "<group>"; };
 		BA4EF3121B3D6DAC6460ADE3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		BB116248828282916261B301 /* SeedCatalog.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = SeedCatalog.json; sourceTree = "<group>"; };
+		C71BC36FE43385B4A71B83BB /* SixDokuWatchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SixDokuWatchApp.swift; sourceTree = "<group>"; };
 		C7513BF1712F4F91AA4DD85C /* WatchPuzzleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchPuzzleView.swift; sourceTree = "<group>"; };
 		C76D2ABBE43898753F005820 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		CD99D6247663D4C8AEFEBDF6 /* SharedServices.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SharedServices.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -344,6 +346,7 @@
 			children = (
 				BA4EF3121B3D6DAC6460ADE3 /* Info.plist */,
 				1818106319E276782CC4BA8D /* SixDokuWatch.entitlements */,
+				C71BC36FE43385B4A71B83BB /* SixDokuWatchApp.swift */,
 				2530A26884CF01B305ED7791 /* Resources */,
 				65477A9EBBAE8AF392D31BDE /* ViewModels */,
 				39ADD549B05BED3DACF9200F /* Views */,
@@ -623,6 +626,14 @@
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1500;
 				TargetAttributes = {
+					90034BB7E77E27E2D4E80719 = {
+						DevelopmentTeam = S332V7BC69;
+						ProvisioningStyle = Automatic;
+					};
+					E7A4B0055967FF7063063178 = {
+						DevelopmentTeam = S332V7BC69;
+						ProvisioningStyle = Automatic;
+					};
 				};
 			};
 			buildConfigurationList = 4AA19F8F186D35FAB294D8B4 /* Build configuration list for PBXProject "SixDoku" */;
@@ -741,6 +752,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8B7579AC5DCAF082EB07CF70 /* SixDokuWatchApp.swift in Sources */,
 				F54CD1D2B9DD24AF0E1AD8AB /* WatchFormatSelectorView.swift in Sources */,
 				70FF8680CB8CD43C8F7C3C1F /* WatchFormatViewModel.swift in Sources */,
 				5A45104B7AA41984DD92873F /* WatchHomeView.swift in Sources */,
@@ -818,7 +830,6 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				GENERATE_INFOPLIST_FILE = YES;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -832,7 +843,6 @@
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = YES;
 				TARGETED_DEVICE_FAMILY = "1,2,4";
 				VERSIONING_SYSTEM = "apple-generic";
-				WATCHOS_DEPLOYMENT_TARGET = 17.0;
 			};
 			name = Release;
 		};
@@ -847,7 +857,6 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				GENERATE_INFOPLIST_FILE = YES;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -861,7 +870,6 @@
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = YES;
 				TARGETED_DEVICE_FAMILY = "1,2,4";
 				VERSIONING_SYSTEM = "apple-generic";
-				WATCHOS_DEPLOYMENT_TARGET = 17.0;
 			};
 			name = Debug;
 		};
@@ -876,7 +884,6 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				GENERATE_INFOPLIST_FILE = YES;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -890,7 +897,6 @@
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = YES;
 				TARGETED_DEVICE_FAMILY = "1,2,4";
 				VERSIONING_SYSTEM = "apple-generic";
-				WATCHOS_DEPLOYMENT_TARGET = 17.0;
 			};
 			name = Debug;
 		};
@@ -899,6 +905,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = WatchApp/SixDokuWatch.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = S332V7BC69;
 				INFOPLIST_FILE = WatchApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -987,7 +995,6 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				GENERATE_INFOPLIST_FILE = YES;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1001,7 +1008,6 @@
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = YES;
 				TARGETED_DEVICE_FAMILY = "1,2,4";
 				VERSIONING_SYSTEM = "apple-generic";
-				WATCHOS_DEPLOYMENT_TARGET = 17.0;
 			};
 			name = Release;
 		};
@@ -1010,6 +1016,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = WatchApp/SixDokuWatch.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = S332V7BC69;
 				INFOPLIST_FILE = WatchApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1045,6 +1053,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = iOSApp/SixDoku.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = S332V7BC69;
 				INFOPLIST_FILE = iOSApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1120,6 +1130,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = iOSApp/SixDoku.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = S332V7BC69;
 				INFOPLIST_FILE = iOSApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
