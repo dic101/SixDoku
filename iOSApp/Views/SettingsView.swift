@@ -13,6 +13,15 @@ public struct SettingsView: View {
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
+            Section("Developer") {
+                Button(viewModel.isSeeding ? "Seeding…" : "Seed Catalog to iCloud") {
+                    viewModel.seedCatalog()
+                }
+                .disabled(viewModel.isSeeding)
+                if let status = viewModel.seedStatus {
+                    Text(status).font(.caption).foregroundStyle(.secondary)
+                }
+            }
         }
         .navigationTitle("Settings")
     }

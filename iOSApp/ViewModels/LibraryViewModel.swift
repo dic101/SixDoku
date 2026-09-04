@@ -39,6 +39,13 @@ public final class LibraryViewModel: ObservableObject {
 
     @MainActor
     private func loadFallback() {
+        // 1. Bundled seed catalog (deterministic, ships with app)
+        if let bundled = Self.loadBundledSeed() {
+            puzzles = bundled
+            isUsingCache = false
+            try? persistence.saveCatalogCache(bundled)
+            return
+        }
         if let cached = persistence.loadCatalogCache(), !cached.isEmpty, !persistence.isCatalogStale() {
             puzzles = cached
             isUsingCache = true
@@ -63,5 +70,14 @@ public final class LibraryViewModel: ObservableObject {
             (selectedFormat == nil || p.format == selectedFormat!) &&
             (selectedDifficulty == nil || p.difficulty == selectedDifficulty!)
         }
+    }
+
+    /// Loads `SeedCatalog.json` from the app bundle (copied via SeedGenerator tool).
+    public static func loadBundledSeed(bundle: Bundle = .main) -> [PuzzleDefinition]? {
+        guard let url = bundle.url(forResource: "SeedCatalog", withExtension: "json"),
+              let data = try? Data(contentsOf: url),
+              let puzzles = try? JSONDecoder().decode([PuzzleDefinition].self, from: data),
+              !puzzles.isEmpty else { return nil }
+        return puzzles
     }
 }

@@ -11,6 +11,7 @@ let package = Package(
     targets: [
         .target(name: "SharedCore", path: "SharedCore"),
         .target(name: "SharedServices", dependencies: ["SharedCore"], path: "SharedServices"),
+        .executableTarget(name: "SeedGenerator", dependencies: ["SharedCore"], path: "Tools/SeedGenerator"),
         .testTarget(name: "SixDokuTests", dependencies: ["SharedCore", "SharedServices"], path: "SixDokuTests"),
     ]
 )

@@ -64,6 +64,41 @@ public final class CloudKitService: @unchecked Sendable {
 
     // MARK: - PuzzleCatalog (Public DB)
 
+    /// Encodes a PuzzleDefinition to a PuzzleCatalog CKRecord (stable recordName = puzzleID).
+    /// Fields per `CloudKitSchema.md.md:4`: puzzleID, format, difficulty, initialClues, solutionGrid, createdAt, version.
+    public static func encodeCatalog(_ puzzle: PuzzleDefinition, version: Int = SeedCatalog.version) -> CKRecord {
+        let recordID = CKRecord.ID(recordName: puzzle.puzzleID)
+        let record = CKRecord(recordType: "PuzzleCatalog", recordID: recordID)
+        record["puzzleID"] = puzzle.puzzleID as CKRecordValue
+        record["format"] = puzzle.format.rawValue as CKRecordValue
+        record["difficulty"] = puzzle.difficulty.rawValue as CKRecordValue
+        record["initialClues"] = puzzle.initialClues.map { ($0 ?? 0) } as CKRecordValue
+        record["solutionGrid"] = puzzle.solutionGrid as CKRecordValue
+        record["createdAt"] = Date() as CKRecordValue
+        record["version"] = version as CKRecordValue
+        return record
+    }
+
+    /// Uploads definitions to the public DB (dev seeding). Uses stable recordNames so re-runs overwrite.
+    /// Requires iCloud sign-in; throws `networkUnavailable` / `cloudKitPermissionDenied` per ErrorHandlingSpec.
+    @discardableResult
+    public func uploadCatalog(_ puzzles: [PuzzleDefinition]) async throws -> Int {
+        var saved = 0
+        // Batch in groups to stay under CloudKit limits
+        for chunk in puzzles.chunked(into: 20) {
+            let records = chunk.map { Self.encodeCatalog($0) }
+            do {
+                let result = try await publicDB.modifyRecords(saving: records, deleting: [], savePolicy: .allKeys)
+                saved += result.saveResults.values.filter { (try? $0.get()) != nil }.count
+            } catch let ckError as CKError where ckError.code == .networkUnavailable || ckError.code == .notAuthenticated {
+                throw SixDokuError.networkUnavailable
+            } catch let ckError as CKError where ckError.code == .permissionFailure {
+                throw SixDokuError.cloudKitPermissionDenied
+            }
+        }
+        return saved
+    }
+
     /// Fetches puzzle catalog from public DB with offline cache fallback.
     /// Fields per `CloudKitSchema.md.md:4`: puzzleID, format, difficulty, initialClues, solutionGrid, createdAt, version.
     public func fetchCatalog() async throws -> [PuzzleDefinition] {
@@ -198,5 +233,11 @@ public final class CloudKitService: @unchecked Sendable {
         let themePreference = record["themePreference"] as? String
         let symbolSetPreference = record["symbolSetPreference"] as? String
         return UserStats(completedCount: completedCount, formatUsage: formatUsage, bestTimes: bestTimes, streakDays: streakDays, lastPlayed: lastPlayed, themePreference: themePreference, symbolSetPreference: symbolSetPreference)
+    }
+}
+
+extension Array {
+    fileprivate func chunked(into size: Int) -> [[Element]] {
+        stride(from: 0, to: count, by: size).map { Array(self[$0..<Swift.min($0 + size, count)]) }
     }
 }
