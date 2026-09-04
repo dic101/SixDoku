@@ -49,6 +49,7 @@ targets:
       base:
         INFOPLIST_FILE: iOSApp/Info.plist
         CODE_SIGN_ENTITLEMENTS: iOSApp/SixDoku.entitlements
+        PRODUCT_BUNDLE_IDENTIFIER: com.sixdoku.app
         DEVELOPMENT_TEAM: S332V7BC69
         CODE_SIGN_STYLE: Automatic
         LD_RUNPATH_SEARCH_PATHS: ["$(inherited)", "@executable_path/Frameworks"]
@@ -80,6 +81,7 @@ targets:
       base:
         INFOPLIST_FILE: WatchApp/Info.plist
         CODE_SIGN_ENTITLEMENTS: WatchApp/SixDokuWatch.entitlements
+        PRODUCT_BUNDLE_IDENTIFIER: com.sixdoku.app.watch
         DEVELOPMENT_TEAM: S332V7BC69
         CODE_SIGN_STYLE: Automatic
         LD_RUNPATH_SEARCH_PATHS: ["$(inherited)", "@executable_path/Frameworks"]
@@ -89,7 +91,7 @@ targets:
         WKApplication: true
         CFBundleName: SixDokuWatch
         CFBundleDisplayName: SixDoku
-        CFBundleIdentifier: com.sixdoku.watch
+        CFBundleIdentifier: com.sixdoku.app.watch
         CFBundleVersion: "1.0"
         CFBundlePackageType: APPL
         CFBundleShortVersionString: "1.0"

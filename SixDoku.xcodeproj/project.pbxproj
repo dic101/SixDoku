@@ -924,7 +924,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.sixdoku.SixDokuWatch;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sixdoku.app.watch;
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = 4;
@@ -1035,7 +1035,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.sixdoku.SixDokuWatch;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sixdoku.app.watch;
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = 4;
@@ -1073,7 +1073,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.sixdoku.SixDoku;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sixdoku.app;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1150,7 +1150,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.sixdoku.SixDoku;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sixdoku.app;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
