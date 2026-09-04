@@ -21,6 +21,8 @@ targets:
       base:
         SKIP_INSTALL: YES
         GENERATE_INFOPLIST_FILE: YES
+        MARKETING_VERSION: "1.0"
+        CURRENT_PROJECT_VERSION: "1"
     supportedDestinations: [iOS, watchOS]
 
   SharedServices:
@@ -34,6 +36,8 @@ targets:
       base:
         SKIP_INSTALL: YES
         GENERATE_INFOPLIST_FILE: YES
+        MARKETING_VERSION: "1.0"
+        CURRENT_PROJECT_VERSION: "1"
     supportedDestinations: [iOS, watchOS]
 
   SixDoku:
@@ -63,6 +67,7 @@ targets:
         CFBundlePackageType: APPL
         CFBundleShortVersionString: "1.0"
         LSRequiresIPhoneOS: true
+        UIRequiresFullScreen: true
         UILaunchScreen:
           UIColorName: LaunchBackground
         UISupportedInterfaceOrientations: ["UIInterfaceOrientationPortrait"]
