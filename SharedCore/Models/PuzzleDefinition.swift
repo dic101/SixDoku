@@ -1,7 +1,7 @@
 import Foundation
 
 /// Static puzzle definition from catalog.
-public struct PuzzleDefinition: Codable, Equatable, Sendable, Identifiable {
+public struct PuzzleDefinition: Codable, Equatable, Hashable, Sendable, Identifiable {
     public let puzzleID: String
     public let format: FormatType
     public let difficulty: Difficulty

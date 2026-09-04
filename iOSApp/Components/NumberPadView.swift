@@ -7,12 +7,14 @@ public struct NumberPadView: View {
     var gridState: GridState
     var selectedCell: (row: Int, col: Int)?
     var format: FormatType
+    var theme: AppTheme = .classic
     var onSelect: (Int?) -> Void
 
-    public init(gridState: GridState, selectedCell: (row: Int, col: Int)?, format: FormatType, onSelect: @escaping (Int?) -> Void) {
+    public init(gridState: GridState, selectedCell: (row: Int, col: Int)?, format: FormatType, theme: AppTheme = .classic, onSelect: @escaping (Int?) -> Void) {
         self.gridState = gridState
         self.selectedCell = selectedCell
         self.format = format
+        self.theme = theme
         self.onSelect = onSelect
     }
 
@@ -26,7 +28,7 @@ public struct NumberPadView: View {
                     Text("\(num)")
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 12)
-                        .background(isDisabled(num) ? Color.gray.opacity(0.3) : Color.blue.opacity(0.2))
+                        .background(isDisabled(num) ? Color.gray.opacity(0.3) : theme.accent.opacity(0.2))
                         .foregroundColor(isDisabled(num) ? .gray : .primary)
                         .clipShape(RoundedRectangle(cornerRadius: 8))
                 }

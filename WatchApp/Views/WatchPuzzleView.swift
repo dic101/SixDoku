@@ -1,13 +1,16 @@
 import SwiftUI
 import SharedCore
+import SharedServices
 
-/// Grid fills screen, compact picker pinned bottom, no scroll.
+/// Grid fills screen; tapping an editable cell pushes a big-number picker page.
 public struct WatchPuzzleView: View {
     @StateObject private var viewModel: WatchPuzzleViewModel
+    @StateObject private var themes = ThemeManager()
     public init(puzzle: PuzzleDefinition) {
         _viewModel = StateObject(wrappedValue: WatchPuzzleViewModel(puzzle: puzzle))
     }
     public var body: some View {
+        let theme = themes.theme
         VStack(spacing: 0) {
             // Grid fills screen
             VStack(spacing: 1) {
@@ -16,45 +19,56 @@ public struct WatchPuzzleView: View {
                         ForEach(0..<6, id: \.self) { col in
                             let sel = viewModel.selectedCell?.row == row && viewModel.selectedCell?.col == col
                             let val = viewModel.gridState[row, col]
+                            let clue = viewModel.isClue(row: row, col: col)
                             ZStack {
-                                Rectangle().fill(sel ? Color.blue.opacity(0.4) : Color.white)
-                                if let val { Text("\(val)").font(.caption2) }
+                                Rectangle()
+                                    .fill(sel ? theme.accent.opacity(0.45) : clue ? theme.clueBackground : theme.cellBackground)
+                                if let val {
+                                    Text("\(val)")
+                                        .font(.system(size: 17, weight: clue ? .bold : .semibold, design: .rounded))
+                                        .foregroundStyle(clue ? theme.clueForeground : theme.entryForeground)
+                                }
+                                if sel {
+                                    RoundedRectangle(cornerRadius: 2)
+                                        .stroke(theme.accent, lineWidth: 2)
+                                }
                             }
                             .accessibilityElement(children: .ignore)
                             .accessibilityLabel("Row \(row+1) Column \(col+1), \(val.map { String($0) } ?? "empty")")
                             .accessibilityAddTraits(sel ? [.isButton, .isSelected] : .isButton)
-                            .onTapGesture { viewModel.selectedCell = (row, col) }
+                            .onTapGesture { viewModel.selectCell(row: row, col: col) }
+                            .padding(.trailing, colGap(col))
                         }
                     }
+                    .padding(.bottom, rowGap(row))
                 }
             }
             .aspectRatio(1, contentMode: .fit)
 
-            // Compact picker auto-dismiss after selection
-            if let cell = viewModel.selectedCell {
-                HStack(spacing: 2) {
-                    ForEach(1...6, id: \.self) { n in
-                        Button("\(n)") {
-                            viewModel.applyMove(row: cell.row, col: cell.col, symbol: n)
-                            viewModel.selectedCell = nil
-                        }
-                        .buttonStyle(.plain)
-                        .font(.caption2)
-                        .accessibilityLabel("Place \(n)")
-                    }
-                    Button("x") {
-                        viewModel.applyMove(row: cell.row, col: cell.col, symbol: nil)
-                        viewModel.selectedCell = nil
-                    }
-                    .accessibilityLabel("Erase entry")
-                }
-                .padding(2)
-            }
-
             if viewModel.isCompleted {
                 Text("Done!").font(.caption).foregroundColor(.green)
                     .accessibilityLabel("Puzzle completed")
+            } else if viewModel.selectedCell != nil {
+                Text("Tap a cell to pick a number")
+                    .font(.caption2).foregroundStyle(.secondary)
             }
         }
+        .background(theme.pageBackground)
+        .navigationDestination(isPresented: $viewModel.pickerPresented) {
+            WatchNumberPickerView(viewModel: viewModel)
+                .environmentObject(themes)
+        }
+        .task {
+            await themes.refreshFromCloud()
+        }
+    }
+
+    /// Extra gap after each box band so 2×3 / 3×2 regions are visible.
+    private func rowGap(_ row: Int) -> CGFloat {
+        (row + 1) % viewModel.format.boxRows == 0 && row < 5 ? 4 : 0
+    }
+
+    private func colGap(_ col: Int) -> CGFloat {
+        (col + 1) % viewModel.format.boxCols == 0 && col < 5 ? 4 : 0
     }
 }

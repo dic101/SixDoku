@@ -102,7 +102,7 @@ public final class PuzzleViewModel: ObservableObject {
         syncManager.loadLatestPuzzleState()
     }
 
-    private func isClue(row: Int, col: Int) -> Bool {
+    public func isClue(row: Int, col: Int) -> Bool {
         guard row >= 0, row < 6, col >= 0, col < 6 else { return true }
         return initialClues[row * 6 + col] != nil
     }

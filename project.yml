@@ -56,10 +56,10 @@ targets:
     info:
       path: iOSApp/Info.plist
       properties:
-        CFBundleName: SixDoku
-        CFBundleDisplayName: SixDoku
+        CFBundleName: 6Doku
+        CFBundleDisplayName: 6Doku
         CFBundleIdentifier: com.sixdoku.app
-        CFBundleVersion: "1.0"
+        CFBundleVersion: "1"
         CFBundlePackageType: APPL
         CFBundleShortVersionString: "1.0"
         LSRequiresIPhoneOS: true
@@ -89,10 +89,10 @@ targets:
       path: WatchApp/Info.plist
       properties:
         WKApplication: true
-        CFBundleName: SixDokuWatch
-        CFBundleDisplayName: SixDoku
+        CFBundleName: 6DokuWatch
+        CFBundleDisplayName: 6Doku
         CFBundleIdentifier: com.sixdoku.app.watch
-        CFBundleVersion: "1.0"
+        CFBundleVersion: "1"
         CFBundlePackageType: APPL
         CFBundleShortVersionString: "1.0"
         WKCompanionAppBundleIdentifier: com.sixdoku.app

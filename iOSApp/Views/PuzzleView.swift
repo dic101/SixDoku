@@ -4,6 +4,7 @@ import SharedServices
 
 public struct PuzzleView: View {
     @StateObject private var viewModel: PuzzleViewModel
+    @StateObject private var themes = ThemeManager()
     public init(puzzle: PuzzleDefinition) {
         _viewModel = StateObject(wrappedValue: PuzzleViewModel(puzzleDefinition: puzzle))
     }
@@ -15,12 +16,24 @@ public struct PuzzleView: View {
         VStack {
             SyncStatusBanner(message: viewModel.syncStatus)
                 .animation(.easeInOut, value: viewModel.syncStatus)
-            SudokuGridView(gridState: $viewModel.gridState, selectedCell: $viewModel.selectedCell, format: viewModel.format) { row, col in
+            SudokuGridView(
+                gridState: $viewModel.gridState,
+                selectedCell: $viewModel.selectedCell,
+                format: viewModel.format,
+                accent: themes.theme.accent,
+                theme: themes.theme,
+                isClue: { viewModel.isClue(row: $0, col: $1) }
+            ) { row, col in
                 viewModel.selectedCell = (row, col)
             }
             .padding()
 
-            NumberPadView(gridState: viewModel.gridState, selectedCell: viewModel.selectedCell, format: viewModel.format) { symbol in
+            NumberPadView(
+                gridState: viewModel.gridState,
+                selectedCell: viewModel.selectedCell,
+                format: viewModel.format,
+                theme: themes.theme
+            ) { symbol in
                 guard let cell = viewModel.selectedCell else { return }
                 viewModel.applyMove(row: cell.row, col: cell.col, symbol: symbol)
                 if let symbol {
@@ -38,8 +51,12 @@ public struct PuzzleView: View {
                     .onAppear { announce("Puzzle completed") }
             }
         }
+        .background(themes.theme.pageBackground)
         .navigationTitle("\(viewModel.format.rawValue) • \(viewModel.puzzleID.prefix(4))")
         .navigationBarTitleDisplayMode(.inline)
+        .task {
+            await themes.refreshFromCloud()
+        }
     }
 
     private func announce(_ message: String) {

@@ -31,7 +31,7 @@ public struct HomeView: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color.white)
-            .navigationTitle("SixDoku")
+            .navigationTitle("6Doku")
         }
         .tint(.blue)
     }
