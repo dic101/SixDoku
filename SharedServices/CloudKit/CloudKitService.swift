@@ -123,7 +123,26 @@ public final class CloudKitService: @unchecked Sendable {
     public func saveUserStats(_ stats: UserStats) async throws {
         try persistence.saveUserStats(stats)
         let recordID = CKRecord.ID(recordName: "UserStats_current")
-        let record = CKRecord(recordType: "UserStats", recordID: recordID)
+        // Fetch-modify-save: a fresh CKRecord with an existing recordName
+        // fails with .serverRecordChanged on second save.
+        let record: CKRecord
+        do {
+            record = try await privateDB.record(for: recordID)
+        } catch let ckError as CKError where ckError.code == .unknownItem {
+            record = CKRecord(recordType: "UserStats", recordID: recordID)
+        }
+        Self.applyStats(stats, to: record)
+        do {
+            _ = try await privateDB.save(record)
+        } catch let ckError as CKError where ckError.code == .networkUnavailable || ckError.code == .notAuthenticated {
+            throw SixDokuError.networkUnavailable
+        } catch let ckError as CKError where ckError.code == .permissionFailure {
+            throw SixDokuError.cloudKitPermissionDenied
+        }
+    }
+
+    /// Writes UserStats fields onto a record (shared by save + tests).
+    static func applyStats(_ stats: UserStats, to record: CKRecord) {
         record["completedCount"] = stats.completedCount as CKRecordValue
         if let data = try? JSONEncoder().encode(stats.formatUsage), let str = String(data: data, encoding: .utf8) {
             record["formatUsage"] = str as CKRecordValue
@@ -140,13 +159,6 @@ public final class CloudKitService: @unchecked Sendable {
         }
         if let symbol = stats.symbolSetPreference {
             record["symbolSetPreference"] = symbol as CKRecordValue
-        }
-        do {
-            _ = try await privateDB.save(record)
-        } catch let ckError as CKError where ckError.code == .networkUnavailable || ckError.code == .notAuthenticated {
-            throw SixDokuError.networkUnavailable
-        } catch let ckError as CKError where ckError.code == .permissionFailure {
-            throw SixDokuError.cloudKitPermissionDenied
         }
     }
 
@@ -218,7 +230,7 @@ public final class CloudKitService: @unchecked Sendable {
         return PuzzleDefinition(puzzleID: puzzleID, format: format, difficulty: difficulty, initialClues: initialClues, solutionGrid: solutionInts)
     }
 
-    private static func decodeStats(from record: CKRecord) -> UserStats? {
+    static func decodeStats(from record: CKRecord) -> UserStats? {
         let completedCount = record["completedCount"] as? Int ?? 0
         var formatUsage: [String: Int] = [:]
         if let str = record["formatUsage"] as? String, let data = str.data(using: .utf8) {
