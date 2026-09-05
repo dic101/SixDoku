@@ -19,11 +19,14 @@ public struct LibraryView: View {
             }
             ForEach(viewModel.filtered, id: \.puzzleID) { puzzle in
                 NavigationLink(destination: PuzzleView(puzzle: puzzle)) {
-                    PuzzleCardView(puzzle: puzzle)
+                    PuzzleCardView(puzzle: puzzle, isCompleted: viewModel.isCompleted(puzzle))
                 }
             }
         }
         .navigationTitle("Library")
-        .onAppear { if viewModel.puzzles.isEmpty { viewModel.loadCatalog() } }
+        .onAppear {
+            if viewModel.puzzles.isEmpty { viewModel.loadCatalog() }
+            viewModel.refreshCompleted()
+        }
     }
 }

@@ -36,14 +36,20 @@
 - CloudKit sync
 - Haptic triggers
 - Stats updates
+- `PersistenceService.markPuzzleCompleted(puzzleID)` → drives Library markers
 
 ---
 
 ## 3. LibraryViewModel
+### Published Properties
+- `completedIDs: Set<String>`
+
 ### Responsibilities
 - Fetch puzzle catalog
 - Filter by format/difficulty
 - Load puzzle preview
+- `refreshCompleted()` — reload local completed IDs (called on catalog load + every Library appear)
+- `isCompleted(_:)` — marker lookup for `PuzzleCardView`
 
 ---
 

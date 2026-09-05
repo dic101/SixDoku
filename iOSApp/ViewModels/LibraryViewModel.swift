@@ -9,6 +9,7 @@ public final class LibraryViewModel: ObservableObject {
     @Published public var selectedDifficulty: Difficulty?
     @Published public var isLoading = false
     @Published public var isUsingCache = false
+    @Published public var completedIDs: Set<String> = []
 
     private let cloudKitService: CloudKitService
     private let persistence: PersistenceService
@@ -21,6 +22,7 @@ public final class LibraryViewModel: ObservableObject {
     /// Loads catalog: try public DB, fallback to cache or local generation per `PuzzleGeneratorSpec.md.md:36`.
     public func loadCatalog() {
         isLoading = true
+        refreshCompleted()
         Task {
             do {
                 let remote = try await cloudKitService.fetchCatalog()
@@ -70,6 +72,15 @@ public final class LibraryViewModel: ObservableObject {
             (selectedFormat == nil || p.format == selectedFormat!) &&
             (selectedDifficulty == nil || p.difficulty == selectedDifficulty!)
         }
+    }
+
+    /// Reloads locally-known completions (call onAppear so markers update after a solve).
+    public func refreshCompleted() {
+        completedIDs = persistence.loadCompletedIDs()
+    }
+
+    public func isCompleted(_ puzzle: PuzzleDefinition) -> Bool {
+        completedIDs.contains(puzzle.puzzleID)
     }
 
     /// Loads `SeedCatalog.json` from the app bundle (copied via SeedGenerator tool).

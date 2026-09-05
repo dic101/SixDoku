@@ -89,6 +89,8 @@ public final class PuzzleViewModel: ObservableObject {
         if Validator.isSolved(grid: gridState, solution: solutionGrid) {
             isCompleted = true
             HapticsService.success()
+            // Persist for Library completed markers.
+            PersistenceService().markPuzzleCompleted(puzzleID)
             // Update UserStats per ViewModelContracts.md StatsViewModel
             let statsService = StatsViewModel()
             // Infer difficulty from clue count

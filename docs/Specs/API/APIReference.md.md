@@ -194,3 +194,23 @@ Creates a puzzle with:
 - unique solution  
 
 ## 6.3 `Generator.removeClues(...)
+
+---
+
+# 7. Services (SharedServices)
+
+## 7.1 `PersistenceService` — completed puzzle IDs
+Local-first completion ledger backing Library markers.
+
+```swift
+func markPuzzleCompleted(_ puzzleID: String)
+func isPuzzleCompleted(_ puzzleID: String) -> Bool
+func loadCompletedIDs() -> Set<String>
+```
+
+- `markPuzzleCompleted` is called by `PuzzleViewModel.checkCompletion()` and
+  `WatchPuzzleViewModel.applyMove()` on every solve (idempotent).
+- `loadCompletedIDs()` merges the stored set with the latest `PuzzleState`
+  and queued states, so solves from older builds still produce markers.
+- `LibraryViewModel.refreshCompleted()` reloads this set on catalog load and
+  every Library appear.

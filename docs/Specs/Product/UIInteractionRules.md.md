@@ -24,7 +24,12 @@
 
 ## 4. Completion Feedback
 - Row/column filled → light haptic.
-- Puzzle completed → celebratory haptic + confetti animation (iOS).
+- Puzzle completed → celebratory haptic + full-screen celebration (iOS):
+  `CompletionCelebrationView` overlay — 96pt `party.popper.fill` in theme
+  accent, `largeTitle` "Puzzle Complete!", ~60-piece falling confetti,
+  spring pop-in; dismiss via "Keep Admiring". A small persistent
+  `checkmark.seal` "Completed" label remains under the grid.
+- watchOS: big solved header — 44pt `party.popper.fill` + `title3.bold` "Solved!".
 
 ## 5. Accessibility
 - Large cell mode.
@@ -44,4 +49,10 @@
 - Grid fills screen.
 - Number picker pinned bottom.
 - No scroll.
+
+## 7. Library Listing
+- Each row shows a green `checkmark.seal.fill` marker (icon-only, "Completed"
+  VoiceOver label) when that puzzle is solved.
+- Markers refresh on every Library appear (post-solve safe) and derive from
+  the local completed-IDs set (latest state + sync queue merged in).
 

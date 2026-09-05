@@ -1,5 +1,11 @@
 # 6Doku — Handoff — 2026-09-04
 
+## Update — 2026-09-05 (unreleased, build still 1.0 (1))
+- **Big completion moment:** `PuzzleView` now shows full-screen `CompletionCelebrationView` (96pt party popper, ~60-piece confetti, spring pop-in, "Keep Admiring" dismiss + persistent `checkmark.seal` label); watch shows 44pt popper + bold "Solved!"
+- **Library markers:** solved rows show green `checkmark.seal.fill`; new local ledger `PersistenceService.{markPuzzleCompleted,isPuzzleCompleted,loadCompletedIDs}` (merges latest state + sync queue), `LibraryViewModel.refreshCompleted()/isCompleted(_:)`, `PuzzleCardView(puzzle:isCompleted:)`; refreshed on every Library appear
+- **Docs:** vault-first edits + `./scripts/sync-specs.sh` — `UIInteractionRules` (§4, §7), `ViewModelContracts` (§2–3), `SwiftUIArchitecture` (§3–4a), `APIReference` (§7), vault README status; `swift test` 38/38, iOS build SUCCEEDS, relaunched on iPhone 17 sim
+- Future: cross-device markers via CloudKit `PuzzleState.isCompleted` query (local-first for now)
+
 **Repo:** `https://github.com/dic101/SixDoku` (`main` `b4adb95`, pushed, clean) — single `project.yml` + `xcodegen`, Dev `iCloud.com.sixdoku.dev`
 **Store:** App Store Connect record **6Doku** ("SixDoku" taken), bundles `com.sixdoku.app` / `com.sixdoku.app.watch`
 **Release:** **1.0 (1)** uploaded to TestFlight (`141cbf1` + distro fix `1b6cd1f`); GitHub README live

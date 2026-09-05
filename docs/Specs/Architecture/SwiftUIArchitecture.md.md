@@ -17,14 +17,18 @@ SixDokuApp
 ## 3. SharedServices
 - CloudKitService
 - SettingsService
-- PersistenceService
+- PersistenceService (puzzle state, UserStats, catalog cache, **completed puzzle IDs**)
 
 ## 4. iOS View Hierarchy
 - HomeView
-- PuzzleView
+- PuzzleView (+ `CompletionCelebrationView` overlay with `ConfettiView`)
 - LibraryView
 - StatsView
 - SettingsView
+
+## 4a. iOS Components
+- SudokuGridView, NumberPadView, FormatSelectorView
+- `PuzzleCardView(puzzle:isCompleted:)` — green `checkmark.seal.fill` marker when solved
 
 ## 5. iOS ViewModels
 - HomeViewModel

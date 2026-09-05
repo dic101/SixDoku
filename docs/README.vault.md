@@ -117,3 +117,17 @@ SixDoku/
     │   ├── WatchHomeViewModel.swift
     │   ├── WatchPuzzleViewModel.swift
     │   └── WatchFormatViewModel.swift
+
+---
+
+## 🚢 Status (2026-09-04)
+- **Store name: 6Doku** ("SixDoku" taken) — bundles `com.sixdoku.app` / `com.sixdoku.app.watch`
+- **First TestFlight: 1.0 (1)** — repo `dic101/SixDoku` @ `141cbf1`, 23/23 tests green
+- Since MVP: 48-puzzle seed catalog, watch input redesign (picker page), 6 iCloud-synced grid themes, VoiceOver audit, AppIcon/LaunchScreen
+- Session log: `[[01-Daily/2026-09-04]]`
+- Before inviting testers: deploy CloudKit schema (`PuzzleCatalog`, `PuzzleState`, `UserStats`) to **Production**
+
+## ✨ Update (2026-09-05, unreleased — build still 1.0 (1))
+- Big completion moment: full-screen `CompletionCelebrationView` (96pt party popper, confetti, spring pop-in, dismissible) on iOS; enlarged "Solved!" header on watch
+- Library completed markers: green `checkmark.seal.fill` per solved row, backed by local completed-IDs ledger (`PersistenceService` + `LibraryViewModel.refreshCompleted()`); 38/38 tests green
+- Specs updated: `UIInteractionRules` (§4, §7), `ViewModelContracts` (§2–3), `SwiftUIArchitecture` (§3–4a), `APIReference` (§7)

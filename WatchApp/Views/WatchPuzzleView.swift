@@ -47,8 +47,17 @@ public struct WatchPuzzleView: View {
             .aspectRatio(1, contentMode: .fit)
 
             if viewModel.isCompleted {
-                Text("Done!").font(.caption).foregroundColor(.green)
-                    .accessibilityLabel("Puzzle completed")
+                VStack(spacing: 4) {
+                    Image(systemName: "party.popper.fill")
+                        .font(.system(size: 44))
+                        .foregroundStyle(theme.accent)
+                    Text("Solved!")
+                        .font(.title3.bold())
+                        .foregroundColor(.green)
+                }
+                .padding(.top, 4)
+                .accessibilityElement(children: .combine)
+                .accessibilityLabel("Puzzle completed")
             } else if viewModel.selectedCell != nil {
                 Text("Tap a cell to pick a number")
                     .font(.caption2).foregroundStyle(.secondary)

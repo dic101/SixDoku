@@ -9,6 +9,7 @@ public final class PersistenceService: @unchecked Sendable {
     private let queueKey = "sixdoku.cloudQueue"
     private let catalogKey = "sixdoku.catalogCache"
     private let catalogDateKey = "sixdoku.catalogCacheDate"
+    private let completedIDsKey = "sixdoku.completedPuzzleIDs"
 
     public init(userDefaults: UserDefaults = .standard) {
         self.userDefaults = userDefaults
@@ -79,4 +80,36 @@ public final class PersistenceService: @unchecked Sendable {
     }
 
     public var hasPendingSync: Bool { !loadQueue().isEmpty }
+
+    // MARK: - Completed puzzle IDs (Library markers)
+
+    /// Records a puzzle as completed (idempotent set).
+    public func markPuzzleCompleted(_ puzzleID: String) {
+        var ids = loadCompletedIDs()
+        ids.insert(puzzleID)
+        if let data = try? JSONEncoder().encode(Array(ids)) {
+            userDefaults.set(data, forKey: completedIDsKey)
+        }
+    }
+
+    public func isPuzzleCompleted(_ puzzleID: String) -> Bool {
+        loadCompletedIDs().contains(puzzleID)
+    }
+
+    public func loadCompletedIDs() -> Set<String> {
+        // Merge explicit set + latest state + queued states so markers
+        // survive even if the set write was missed on an older build.
+        var ids = Set<String>()
+        if let data = userDefaults.data(forKey: completedIDsKey),
+           let stored = try? JSONDecoder().decode([String].self, from: data) {
+            ids.formUnion(stored)
+        }
+        if let latest = loadPuzzleState(), latest.isCompleted {
+            ids.insert(latest.puzzleID)
+        }
+        for queued in loadQueue() where queued.isCompleted {
+            ids.insert(queued.puzzleID)
+        }
+        return ids
+    }
 }

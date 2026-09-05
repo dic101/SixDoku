@@ -60,6 +60,7 @@ public final class WatchPuzzleViewModel: ObservableObject {
         }
         if Validator.isComplete(grid: gridState) && Validator.isSolved(grid: gridState, solution: solutionGrid) {
             isCompleted = true
+            PersistenceService().markPuzzleCompleted(puzzleID)
         }
         saveState()
         return true
