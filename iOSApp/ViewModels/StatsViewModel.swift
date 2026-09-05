@@ -8,6 +8,7 @@ public final class StatsViewModel: ObservableObject {
     @Published public var formatUsage: [FormatType: Int] = [:]
     @Published public var streakDays: Int = 0
     @Published public var lastPlayed: Date?
+    @Published public var hintsUsed: Int = 0
     @Published public var isSyncing = false
 
     private let cloudKitService: CloudKitService
@@ -60,6 +61,17 @@ public final class StatsViewModel: ObservableObject {
         Task { try? await cloudKitService.saveUserStats(newStats) }
     }
 
+    public func recordHintUsage() {
+        // Load-modify-save against persistence (not the in-memory copy, which
+        // may be stale if load() was never called on this instance).
+        var newStats = persistence.loadUserStats() ?? userStats
+        newStats.recordHintUsed()
+        userStats = newStats
+        try? persistence.saveUserStats(newStats)
+        apply(newStats)
+        Task { try? await cloudKitService.saveUserStats(newStats) }
+    }
+
     private func apply(_ stats: UserStats) {
         userStats = stats
         completedCount = stats.completedCount
@@ -69,6 +81,7 @@ public final class StatsViewModel: ObservableObject {
         formatUsage = mapped
         streakDays = stats.streakDays
         lastPlayed = stats.lastPlayed
+        hintsUsed = stats.totalHintsUsed
     }
 
     private func merge(local: UserStats?, remote: UserStats) -> UserStats {

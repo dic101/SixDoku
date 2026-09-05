@@ -16,10 +16,12 @@ public final class PuzzleViewModel: ObservableObject {
     private var initialClues: [Int?]
     private var solutionGrid: [Int]
     private let syncManager: SyncManager
+    private let settings: SettingsService
 
     public init(
         puzzleDefinition: PuzzleDefinition,
-        syncManager: SyncManager = SyncManager()
+        syncManager: SyncManager = SyncManager(),
+        settings: SettingsService = SettingsService()
     ) {
         self.puzzleID = puzzleDefinition.puzzleID
         self.format = puzzleDefinition.format
@@ -27,12 +29,14 @@ public final class PuzzleViewModel: ObservableObject {
         self.solutionGrid = puzzleDefinition.solutionGrid
         self.gridState = GridState(cells: puzzleDefinition.initialClues)
         self.syncManager = syncManager
+        self.settings = settings
     }
 
     public init(
         puzzleState: PuzzleState,
         solutionGrid: [Int],
-        syncManager: SyncManager = SyncManager()
+        syncManager: SyncManager = SyncManager(),
+        settings: SettingsService = SettingsService()
     ) {
         self.puzzleID = puzzleState.puzzleID
         self.format = puzzleState.format
@@ -40,6 +44,7 @@ public final class PuzzleViewModel: ObservableObject {
         self.solutionGrid = solutionGrid
         self.gridState = puzzleState.gridState
         self.syncManager = syncManager
+        self.settings = settings
         self.isCompleted = puzzleState.isCompleted
     }
 
@@ -62,6 +67,21 @@ public final class PuzzleViewModel: ObservableObject {
 
     public func validateMove(row: Int, col: Int, symbol: Int) -> Bool {
         Validator.isValidMove(grid: gridState, row: row, col: col, symbol: symbol, format: format)
+    }
+
+    /// Returns and applies a hint when hints are enabled, otherwise nil.
+    /// Respects `SettingsService.hintsEnabled` (synced via iCloud).
+    /// Each applied hint increments `UserStats.hintsUsed` per HintSystemSpec.
+    @discardableResult
+    public func requestHint() -> HintEngine.Hint? {
+        guard settings.hintsEnabled else { return nil }
+        guard let hint = HintEngine.hint(for: gridState, format: format, solution: solutionGrid) else {
+            return nil
+        }
+        selectedCell = (hint.row, hint.col)
+        applyMove(row: hint.row, col: hint.col, symbol: hint.symbol)
+        StatsViewModel().recordHintUsage()
+        return hint
     }
 
     public func checkCompletion() {

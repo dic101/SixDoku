@@ -1,11 +1,12 @@
 import Foundation
 import SharedCore
 
-/// Manages format + theme preferences. Theme syncs via UserStats (CloudKit).
+/// Manages format + theme + hints preferences. Theme/hints sync via UserStats (CloudKit).
 public final class SettingsService: @unchecked Sendable {
     private let defaults: UserDefaults
     private let formatKey = "sixdoku.formatPreference"
     private let themeKey = "sixdoku.themePreference"
+    private let hintsKey = "sixdoku.hintsEnabled"
 
     public init(defaults: UserDefaults = .standard) {
         self.defaults = defaults
@@ -34,6 +35,17 @@ public final class SettingsService: @unchecked Sendable {
         }
         set {
             defaults.set(newValue.rawValue, forKey: themeKey)
+        }
+    }
+
+    /// Hints toggle. Defaults to off when never set.
+    public var hintsEnabled: Bool {
+        get {
+            guard defaults.object(forKey: hintsKey) != nil else { return false }
+            return defaults.bool(forKey: hintsKey)
+        }
+        set {
+            defaults.set(newValue, forKey: hintsKey)
         }
     }
 }

@@ -13,7 +13,6 @@ public struct WatchHomeView: View {
                 // otherwise the board resets on every re-render.
                 Button("New 2×3") { pendingPuzzle = viewModel.newPuzzle(format: .twoByThree, difficulty: .easy) }
                 Button("New 3×2") { pendingPuzzle = viewModel.newPuzzle(format: .threeByTwo, difficulty: .easy) }
-                NavigationLink("Format") { WatchFormatSelectorView() }
             }
             .navigationTitle("6Doku")
             .navigationDestination(item: $pendingPuzzle) { puzzle in

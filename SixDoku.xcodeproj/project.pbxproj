@@ -38,7 +38,6 @@
 		6A48635FE93CF227152DDB4B /* SeedCatalog.json in Resources */ = {isa = PBXBuildFile; fileRef = BB116248828282916261B301 /* SeedCatalog.json */; };
 		6E808B4AE2FE40613BF34877 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCABB480078D4E174CA527D3 /* HomeView.swift */; };
 		6EB05F286682FBEA7EEAD604 /* FormatSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB7BCEC091070CC2F1C88F0 /* FormatSelectorView.swift */; };
-		70FF8680CB8CD43C8F7C3C1F /* WatchFormatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F90AFC11BF751BDC9FB15DB5 /* WatchFormatViewModel.swift */; };
 		71BBACD89FD96B7F13FF165A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BF9834379AD43E5CA86AF62C /* Assets.xcassets */; };
 		763171B6063E996C11205F99 /* SharedCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 002C7DA779DA488A590958D4 /* SharedCore.framework */; };
 		779C4EF2F6A6C62D962E847B /* SeedCatalog.json in Resources */ = {isa = PBXBuildFile; fileRef = 356F15DF45DCB35DE698A030 /* SeedCatalog.json */; };
@@ -57,6 +56,7 @@
 		A1A54800452B7D79ECA978B5 /* NumberPadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DFA905AE8FBCCE184DB45CF /* NumberPadView.swift */; };
 		A452FE23B3CB985F90DFE983 /* BoxMapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42111C968E1E7792979A3BA6 /* BoxMapping.swift */; };
 		A906C5FF832B62201999A868 /* LibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81451FBD14A000916947B541 /* LibraryView.swift */; };
+		AE3098D84F8C5F21F98F3A5B /* HintsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C052CEF6237082602E6D8E7C /* HintsTests.swift */; };
 		AE81E495FDEAEF1EB30B9FC6 /* SyncStatusBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 256BB16A4A8338718CC836A6 /* SyncStatusBanner.swift */; };
 		AE832FD9A7326C4C7CB9AA35 /* Validator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB4F3BC4BE0A925D7082F7E /* Validator.swift */; };
 		B24079F1895AE21371085F4A /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2132A309FB484425584031 /* SettingsView.swift */; };
@@ -78,7 +78,7 @@
 		EA48F86A47A4FDF1AA58C30D /* ValidatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18CCFF22BC7070D4EC6C8E49 /* ValidatorTests.swift */; };
 		EA5AAF7C868FB4286C013E67 /* Generator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288173848A1F9EF14404B70D /* Generator.swift */; };
 		F5282E373855CBD268E0AA9E /* UserStatsSyncTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 758938FB5E92DFA94EA0A2B3 /* UserStatsSyncTests.swift */; };
-		F54CD1D2B9DD24AF0E1AD8AB /* WatchFormatSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B99DD1E6916D4B5780004240 /* WatchFormatSelectorView.swift */; };
+		F7FF455FAA81296E1E92830C /* HintsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB94D8AD2C73ECDD4CE06DB /* HintsManager.swift */; };
 		FF53C35B5E0B147F466012F6 /* Solver.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDA35F1C7CBF9053BFD95A4C /* Solver.swift */; };
 /* End PBXBuildFile section */
 
@@ -206,6 +206,7 @@
 		8EADD6BA37E0A30F68BFAB7D /* WatchPuzzleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchPuzzleViewModel.swift; sourceTree = "<group>"; };
 		91AB264546204EF85CDC4223 /* GridState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridState.swift; sourceTree = "<group>"; };
 		9AF04BA9466147E129D8349C /* PersistenceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceService.swift; sourceTree = "<group>"; };
+		9BB94D8AD2C73ECDD4CE06DB /* HintsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HintsManager.swift; sourceTree = "<group>"; };
 		9C043849598F02AF1498F9E9 /* StatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsView.swift; sourceTree = "<group>"; };
 		9DEF9E782C0362D7784CB922 /* PuzzleCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PuzzleCardView.swift; sourceTree = "<group>"; };
 		A2CE0E557CDEB91BE36F9993 /* SudokuGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SudokuGridView.swift; sourceTree = "<group>"; };
@@ -215,10 +216,10 @@
 		AE0D4442B4B814DBB34D295A /* SixDokuWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SixDokuWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B60A44A83C1DD9C5B59C4655 /* SixDokuTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = SixDokuTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B7A1552A29DC8CD635ACBB08 /* HintEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HintEngine.swift; sourceTree = "<group>"; };
-		B99DD1E6916D4B5780004240 /* WatchFormatSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchFormatSelectorView.swift; sourceTree = "<group>"; };
 		BA4EF3121B3D6DAC6460ADE3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		BB116248828282916261B301 /* SeedCatalog.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = SeedCatalog.json; sourceTree = "<group>"; };
 		BF9834379AD43E5CA86AF62C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		C052CEF6237082602E6D8E7C /* HintsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HintsTests.swift; sourceTree = "<group>"; };
 		C71BC36FE43385B4A71B83BB /* SixDokuWatchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SixDokuWatchApp.swift; sourceTree = "<group>"; };
 		C7513BF1712F4F91AA4DD85C /* WatchPuzzleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchPuzzleView.swift; sourceTree = "<group>"; };
 		C76D2ABBE43898753F005820 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
@@ -238,7 +239,6 @@
 		F13E229441830B76B210676A /* CloudKitService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitService.swift; sourceTree = "<group>"; };
 		F1D9F97514F5DC3BDFACBF0F /* Difficulty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Difficulty.swift; sourceTree = "<group>"; };
 		F28A60427C9D998A84210B98 /* Randomization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Randomization.swift; sourceTree = "<group>"; };
-		F90AFC11BF751BDC9FB15DB5 /* WatchFormatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchFormatViewModel.swift; sourceTree = "<group>"; };
 		FCABB480078D4E174CA527D3 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		FDC1F219C6740C6EB1B6EB22 /* SixDoku.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SixDoku.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -341,7 +341,6 @@
 		39ADD549B05BED3DACF9200F /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				B99DD1E6916D4B5780004240 /* WatchFormatSelectorView.swift */,
 				D477AC13BD29A95CD55013C3 /* WatchHomeView.swift */,
 				4FD22D4F8E5914DDF59D4B9F /* WatchNumberPickerView.swift */,
 				C7513BF1712F4F91AA4DD85C /* WatchPuzzleView.swift */,
@@ -395,7 +394,6 @@
 		65477A9EBBAE8AF392D31BDE /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
-				F90AFC11BF751BDC9FB15DB5 /* WatchFormatViewModel.swift */,
 				257BA1EDEF436271B922C677 /* WatchHomeViewModel.swift */,
 				8EADD6BA37E0A30F68BFAB7D /* WatchPuzzleViewModel.swift */,
 			);
@@ -486,6 +484,7 @@
 			isa = PBXGroup;
 			children = (
 				A3B8C69C3A27B9CCFB648D2C /* HapticsService.swift */,
+				9BB94D8AD2C73ECDD4CE06DB /* HintsManager.swift */,
 				119E434D4A915B557644E9F6 /* SettingsService.swift */,
 				E8795108375D5AA9CAB2CCAD /* ThemeManager.swift */,
 			);
@@ -516,6 +515,7 @@
 		F7BE4E64F90EF35C20D64703 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				C052CEF6237082602E6D8E7C /* HintsTests.swift */,
 				1E714056A5984C332B616B4F /* ThemeTests.swift */,
 				758938FB5E92DFA94EA0A2B3 /* UserStatsSyncTests.swift */,
 			);
@@ -754,6 +754,7 @@
 			files = (
 				34305E717DE8CE8284FF53F7 /* CloudKitService.swift in Sources */,
 				B25AA6052E3732AEAB02E3ED /* HapticsService.swift in Sources */,
+				F7FF455FAA81296E1E92830C /* HintsManager.swift in Sources */,
 				8CA9CDF228E450BF15D64598 /* PersistenceService.swift in Sources */,
 				0848211976B5C790960E1517 /* SettingsService.swift in Sources */,
 				D8F1DEC6CCE5FED03A6F67B7 /* SyncManager.swift in Sources */,
@@ -767,6 +768,7 @@
 			files = (
 				3A2483FE8A0301F33B282E8D /* BoxMappingTests.swift in Sources */,
 				8196089DEF017AD6E03654C1 /* GeneratorTests.swift in Sources */,
+				AE3098D84F8C5F21F98F3A5B /* HintsTests.swift in Sources */,
 				1B1CE3EFB139B1E3AAAE5EBF /* SeedCatalogTests.swift in Sources */,
 				D1E6EE8ECC6C9CD628C90DC9 /* SolverTests.swift in Sources */,
 				29120A6EC08ED98C2D824FEC /* ThemeTests.swift in Sources */,
@@ -780,8 +782,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8B7579AC5DCAF082EB07CF70 /* SixDokuWatchApp.swift in Sources */,
-				F54CD1D2B9DD24AF0E1AD8AB /* WatchFormatSelectorView.swift in Sources */,
-				70FF8680CB8CD43C8F7C3C1F /* WatchFormatViewModel.swift in Sources */,
 				5A45104B7AA41984DD92873F /* WatchHomeView.swift in Sources */,
 				61024649C4A1C9D9789D266B /* WatchHomeViewModel.swift in Sources */,
 				393F26E46204A18F714A5DCE /* WatchNumberPickerView.swift in Sources */,

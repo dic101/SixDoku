@@ -5,11 +5,20 @@ import SharedServices
 public struct SettingsView: View {
     @StateObject private var viewModel = SettingsViewModel()
     @StateObject private var themes = ThemeManager()
+    @StateObject private var hints = HintsManager()
     public init() {}
     public var body: some View {
         Form {
             Section("Game") {
                 FormatSelectorView(selection: $viewModel.formatPreference)
+                Toggle("Hints", isOn: Binding(
+                    get: { hints.isEnabled },
+                    set: { hints.setEnabled($0) }
+                ))
+                .accessibilityHint("Turn hints on or off")
+                Text("Turn hints on or off. Syncs via iCloud.")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
             }
             Section("Grid Theme") {
                 ForEach(AppTheme.allCases, id: \.self) { theme in

@@ -160,6 +160,12 @@ public final class CloudKitService: @unchecked Sendable {
         if let symbol = stats.symbolSetPreference {
             record["symbolSetPreference"] = symbol as CKRecordValue
         }
+        if let hints = stats.hintsEnabled {
+            record["hintsEnabled"] = (hints ? 1 : 0) as CKRecordValue
+        }
+        if let used = stats.hintsUsed {
+            record["hintsUsed"] = used as CKRecordValue
+        }
     }
 
     public func fetchUserStats() async throws -> UserStats? {
@@ -244,7 +250,9 @@ public final class CloudKitService: @unchecked Sendable {
         let lastPlayed = record["lastPlayed"] as? Date
         let themePreference = record["themePreference"] as? String
         let symbolSetPreference = record["symbolSetPreference"] as? String
-        return UserStats(completedCount: completedCount, formatUsage: formatUsage, bestTimes: bestTimes, streakDays: streakDays, lastPlayed: lastPlayed, themePreference: themePreference, symbolSetPreference: symbolSetPreference)
+        let hintsEnabled = (record["hintsEnabled"] as? Int).map { $0 == 1 }
+        let hintsUsed = record["hintsUsed"] as? Int
+        return UserStats(completedCount: completedCount, formatUsage: formatUsage, bestTimes: bestTimes, streakDays: streakDays, lastPlayed: lastPlayed, themePreference: themePreference, symbolSetPreference: symbolSetPreference, hintsEnabled: hintsEnabled, hintsUsed: hintsUsed)
     }
 }
 
