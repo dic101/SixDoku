@@ -1,37 +1,40 @@
-# SixDoku — Handoff — 2026-09-02 23:59 EDT
+# 6Doku — Handoff — 2026-09-04
 
-**Repo:** `https://github.com/dic101/SixDoku` (`main` `dcdeeeb`) — single `project.yml` + `xcodegen`, Dev `iCloud.com.sixdoku.dev`
-**Workspace:** `/Users/davechow/Documents/Projects/SixDoku` — 45 Swift files, `Package.swift` + `SixDoku.xcodeproj` (5 targets)
-**Specs:** Vault `02-Projects/SixDoku/SixDoku - Project Home/Specs/` (18) mirrored `docs/Specs/` via `scripts/sync-specs.sh` — `AGENTS.md:1` is bootstrap
+**Repo:** `https://github.com/dic101/SixDoku` (`main` `b4adb95`, pushed, clean) — single `project.yml` + `xcodegen`, Dev `iCloud.com.sixdoku.dev`
+**Store:** App Store Connect record **6Doku** ("SixDoku" taken), bundles `com.sixdoku.app` / `com.sixdoku.app.watch`
+**Release:** **1.0 (1)** uploaded to TestFlight (`141cbf1` + distro fix `1b6cd1f`); GitHub README live
 
 ## State Now
-- iOS 17 `SixDoku` **BUILD SUCCEEDED** on iPhone 17 sim (26.5), watch `SixDokuWatch` needs team in Signing & Capabilities (`Signing for SixDokuWatch requires development team`)
-- Engine: 6×6 dual 2×3/3×2, `Solver.swift:22` early `isValidGrid` fix, `Generator` clue removal, 12 tests pass (0.068s)
-- Services: `CloudKitService.swift:63` private `PuzzleState` + public `PuzzleCatalog` + `UserStats` (retry 3, queue, timestamp), `PersistenceService.swift:34` cache 24h, `SyncManager.swift:37`, `SyncStatusBanner.swift:3` iOS orange / watch silent
-- Apps: `HomeView.swift:10` clean white bg (diagnostic removed), `LibraryViewModel.swift:7` catalog fetch+fallback, `StatsViewModel.swift:4` streak, `PuzzleViewModel.swift:9` syncStatus, `SixDokuApp.swift:6` `task { syncWhenOnline }`
-- Git: `dcdeeeb` pushed to `origin/main`, `.gitignore` covers `.build/` `xcuserdata`
+- `swift test` **23/23 (7 suites)** — Solver/Validator/Generator/BoxMapping/SeedCatalog/UserStatsSync/Theme
+- iOS + watchOS device builds **SUCCEED**; installed + launched on iPhone 17 sim, Watch 46mm sim, physical iPhone 15 Pro + Watch Series 10
+- Engine: 6×6 dual 2×3/3×2, 48-puzzle deterministic seed catalog (`SeedCatalog.json` bundled, `SeedGenerator` tool, `scripts/seed-catalog.sh`, in-app public-DB uploader in Settings)
+- Sync: `PuzzleState`/`UserStats` private DB (fetch-modify-save, offline queue), `UserStats.themePreference` carries grid theme iOS↔watch
+- Themes (6): Classic/Midnight/High Contrast/Volt/Ember/Cobalt — picker in iOS Settings, watch grid + picker + iOS grid all themed
+- Watch input: board-reset bug fixed (puzzle generated once per tap), full-page 3×2 picker + Erase, black-tile givens, box-band gaps
+- Polish: 1024 AppIcon + catalogs (`Tools/MakeIcon`), `UILaunchScreen`, VoiceOver audit (cell labels, pad hints, move/completion announcements)
+- Signing: team `S332V7BC69` pinned in `project.yml`; frameworks carry `MARKETING_VERSION`; `UIRequiresFullScreen` set (iPad orientation distro error fixed)
 
 ## How to Resume
-1. `cat AGENTS.md` → read vault `06-Templates/OpenCodeBootstrapPrompt.md.md` + `Specs/**/*.md`
-2. `xcodegen generate` if `project.yml` changed
-3. `swift test` (12) + `xcodebuild -scheme SixDoku -destination 'platform=iOS Simulator,name=iPhone 17,OS=26.5' build`
-4. For watch: open `SixDoku.xcodeproj` → `SixDokuWatch` → Signing → select same Dev Team as iOS
-5. Run `./scripts/sync-specs.sh` after editing Vault specs (vault is source of truth)
+1. `cat AGENTS.md` → vault bootstrap + `Specs/**/*.md` (or `docs/Specs/` fallback), `PDD > Architecture > API`
+2. `xcodegen generate` after any file add or `project.yml` change (it also rewrites `Info.plist` from `info.properties` — never hand-edit plists)
+3. `swift test` (23) + device builds with `-allowProvisioningUpdates`; **never run two builds/tests in parallel** (shared `build.db` lock)
+4. Watch physical installs **only stick via Xcode Run** (scheme `SixDokuWatch` → real watch); direct `devicectl` installs get reconciled away. Watch needs Developer Mode ON + awake screen for tunnel
+5. `./scripts/sync-specs.sh` after vault spec edits
 
-## Next Wiring (if continuing iOSRoadmap)
-- Seed public `PuzzleCatalog` in CloudKit Dashboard (or add `scripts/seed-catalog.swift`) — `LibraryViewModel` expects 50 `PuzzleCatalog` records or falls back to local generation
-- `UserStats` CloudKit record `UserStats_current` already decodes JSON strings; verify `bestTimes`/`formatUsage` round-trip
-- Polish: AppIcon/LaunchScreen, VoiceOver `UIInteractionRules.md.md:29`, `TestingStrategy.md.md:32` perf, `BuildReleasePipeline.md.md:3` TestFlight
-- Post-MVP: `ThemeSystem.md.md:1`, `DailyPuzzleSystem.md.md:1`
+## Next
+- TestFlight: schema already deployed to Production by user; internal tester installs in progress — verify phone↔watch sync + theme propagation on prod builds
+- Per-upload: bump `CFBundleVersion` in `project.yml`, regenerate, archive fresh (never re-distribute a stale archive)
+- Post-MVP per `iOSRoadmap.md.md:1`: daily puzzle, achievements; README wants screenshots + license decision
 
 ## Known Issues / Notes
-- `.build/build.db: disk I/O error` transient from SPM, harmless (`swift build` still succeeds)
-- Watch build fails until team set; iOS build clean after `LibraryView.swift:1` `import SharedCore` fix
-- No `PuzzleCatalog` records yet in public DB → `LibraryView` uses generated fallback (18 puzzles) + caches
+- `.build/build.db: disk I/O error` transient from SPM, harmless; `simctl launch` hanging → reboot that sim device
+- Instantiating `CloudKitService()` in `swift test` host traps runner → `UserStatsSyncing` protocol + actor stub (`ThemeTests.swift`)
+- `.foregroundStyle(cond ? .primary : .blue)` mixes style types → cascade errors misblamed on `ForEach`; always qualify (`Color.primary`)
+- Display/scheme/target internals still say "SixDoku" in places (struct/file/scheme names) — user-visible strings are 6Doku
 
 ## Logs
-- Full diary: `docs/DIARY_2026-09-02_Session.md:1` — vault copy `01-Daily/2026-09-02.md:1`
-- Plan: `~/.agent/plans/effervescent-painting-arya-agent-a1fad010224fa4aa8.md` (marked COMPLETED)
+- Vault: `01-Daily/2026-09-04.md` (session), `01-Daily/2026-09-02.md:1`, Project Home README status section
+- Repo: `docs/DIARY_2026-09-02_Session.md:1`, `docs/PLAN.md` (COMPLETED), plan `~/.claude/plans/effervescent-painting-arya-agent-a1fad010224fa4aa8.md`
 
 ---
-*Stop: 2026-09-02 23:59 EDT — run `./scripts/sync-specs.sh` before next push*
+*Stop: 2026-09-04 — tree clean @ `b4adb95`, next session start here + vault daily note*
