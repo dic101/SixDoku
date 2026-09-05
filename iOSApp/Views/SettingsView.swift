@@ -6,6 +6,9 @@ public struct SettingsView: View {
     @StateObject private var viewModel = SettingsViewModel()
     @StateObject private var themes = ThemeManager()
     @StateObject private var hints = HintsManager()
+    // Grid-theme choice must never drive row text color: explicit
+    // light/dark variant instead so names stay readable in both schemes.
+    @Environment(\.colorScheme) private var colorScheme
     public init() {}
     public var body: some View {
         Form {
@@ -26,25 +29,36 @@ public struct SettingsView: View {
                         themes.setTheme(theme)
                     } label: {
                         HStack(spacing: 12) {
-                            // Mini swatch: given tile + entry digit
-                            ZStack {
-                                RoundedRectangle(cornerRadius: 6)
-                                    .fill(theme.clueBackground)
-                                    .frame(width: 34, height: 34)
-                                Text("5")
-                                    .font(.headline)
-                                    .foregroundStyle(theme.clueForeground)
+                            // Mini grid preview: given cells vs editable cells.
+                            VStack(spacing: 2) {
+                                HStack(spacing: 2) {
+                                    RoundedRectangle(cornerRadius: 3)
+                                        .fill(theme.clueBackground)
+                                        .frame(width: 16, height: 16)
+                                    RoundedRectangle(cornerRadius: 3)
+                                        .fill(theme.cellBackground)
+                                        .frame(width: 16, height: 16)
+                                }
+                                HStack(spacing: 2) {
+                                    RoundedRectangle(cornerRadius: 3)
+                                        .fill(theme.cellBackground)
+                                        .frame(width: 16, height: 16)
+                                    RoundedRectangle(cornerRadius: 3)
+                                        .fill(theme.clueBackground)
+                                        .frame(width: 16, height: 16)
+                                }
                             }
+                            .frame(width: 34, height: 34)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 6)
                                     .stroke(Color.gray.opacity(0.4), lineWidth: 0.5)
                             )
                             VStack(alignment: .leading) {
                                 Text(theme.displayName)
-                                    .foregroundStyle(.primary)
+                                    .foregroundStyle(colorScheme == .dark ? .white : .black)
                                 Text(theme.description)
                                     .font(.caption)
-                                    .foregroundStyle(.secondary)
+                                    .foregroundStyle(colorScheme == .dark ? .white : .black)
                             }
                             Spacer()
                             if themes.theme == theme {

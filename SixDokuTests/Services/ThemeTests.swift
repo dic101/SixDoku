@@ -6,18 +6,16 @@ import Testing
 @Suite("Theme Tests")
 struct ThemeTests {
     @Test func threeThemes() {
-        #expect(AppTheme.allCases.count == 6)
+        #expect(AppTheme.allCases.count == 4)
         #expect(AppTheme(rawValue: "classic") == .classic)
-        #expect(AppTheme(rawValue: "midnight") == .midnight)
-        #expect(AppTheme(rawValue: "highContrast") == .highContrast)
         #expect(AppTheme(rawValue: "volt") == .volt)
         #expect(AppTheme(rawValue: "ember") == .ember)
         #expect(AppTheme(rawValue: "cobalt") == .cobalt)
     }
 
     @Test func themeCodable() {
-        let data = try? JSONEncoder().encode(AppTheme.midnight)
-        #expect(data.flatMap { try? JSONDecoder().decode(AppTheme.self, from: $0) } == .midnight)
+        let data = try? JSONEncoder().encode(AppTheme.volt)
+        #expect(data.flatMap { try? JSONDecoder().decode(AppTheme.self, from: $0) } == .volt)
     }
 
     @Test @MainActor func managerPersistsLocally() {
@@ -30,9 +28,9 @@ struct ThemeTests {
             persistence: PersistenceService(userDefaults: store)
         )
         #expect(manager.theme == .classic)
-        manager.setTheme(.highContrast)
-        #expect(manager.theme == .highContrast)
-        #expect(SettingsService(defaults: store).themePreference == .highContrast)
+        manager.setTheme(.ember)
+        #expect(manager.theme == .ember)
+        #expect(SettingsService(defaults: store).themePreference == .ember)
         store.removePersistentDomain(forName: "sixdoku.tests.theme")
     }
 
@@ -40,15 +38,15 @@ struct ThemeTests {
         let store = UserDefaults(suiteName: "sixdoku.tests.theme")!
         store.removePersistentDomain(forName: "sixdoku.tests.theme")
         let stub = StubSync()
-        await stub.set(UserStats(themePreference: AppTheme.midnight.rawValue))
+        await stub.set(UserStats(themePreference: AppTheme.volt.rawValue))
         let manager = ThemeManager(
             settings: SettingsService(defaults: store),
             cloudKit: stub,
             persistence: PersistenceService(userDefaults: store)
         )
         await manager.refreshFromCloud()
-        #expect(manager.theme == .midnight)
-        #expect(SettingsService(defaults: store).themePreference == .midnight)
+        #expect(manager.theme == .volt)
+        #expect(SettingsService(defaults: store).themePreference == .volt)
         store.removePersistentDomain(forName: "sixdoku.tests.theme")
     }
 }

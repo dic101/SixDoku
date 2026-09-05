@@ -6,6 +6,7 @@ import SharedServices
 public struct WatchNumberPickerView: View {
     @ObservedObject var viewModel: WatchPuzzleViewModel
     @EnvironmentObject private var themes: ThemeManager
+    @EnvironmentObject private var hints: HintsManager
     @Environment(\.dismiss) private var dismiss
 
     public init(viewModel: WatchPuzzleViewModel) {
@@ -18,13 +19,18 @@ public struct WatchNumberPickerView: View {
             VStack(spacing: 6) {
                 LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())], spacing: 6) {
                     ForEach(1...6, id: \.self) { n in
+                        // Assist gating (matches iOS pad): with hints off every
+                        // key looks identical — no slash marks, nothing disabled.
+                        let assisted = hints.isEnabled
                         let allowed = viewModel.isValidMove(n)
+                        let enabled = !assisted || allowed
                         let current = viewModel.selectedValue() == n
                         Button {
                             if let cell = viewModel.selectedCell {
-                                viewModel.applyMove(row: cell.row, col: cell.col, symbol: n)
+                                if viewModel.applyMove(row: cell.row, col: cell.col, symbol: n) {
+                                    dismiss()
+                                }
                             }
-                            dismiss()
                         } label: {
                             ZStack {
                                 RoundedRectangle(cornerRadius: 10)
@@ -38,7 +44,7 @@ public struct WatchNumberPickerView: View {
                                         Image(systemName: "checkmark")
                                             .font(.caption2)
                                             .foregroundStyle(theme.pageBackground)
-                                    } else if !allowed {
+                                    } else if assisted && !allowed {
                                         Image(systemName: "slash.circle")
                                             .font(.caption2)
                                             .foregroundStyle(.secondary)
@@ -47,8 +53,8 @@ public struct WatchNumberPickerView: View {
                             }
                         }
                         .buttonStyle(.plain)
-                        .disabled(!allowed && !current)
-                        .opacity(!allowed && !current ? 0.4 : 1)
+                        .disabled(!enabled && !current)
+                        .opacity(!enabled && !current ? 0.4 : 1)
                         .accessibilityLabel("Place \(n)")
                     }
                 }

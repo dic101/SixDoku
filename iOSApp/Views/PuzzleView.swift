@@ -34,7 +34,8 @@ public struct PuzzleView: View {
                 gridState: viewModel.gridState,
                 selectedCell: viewModel.selectedCell,
                 format: viewModel.format,
-                theme: themes.theme
+                theme: themes.theme,
+                hintsEnabled: hints.isEnabled
             ) { symbol in
                 guard let cell = viewModel.selectedCell else { return }
                 viewModel.applyMove(row: cell.row, col: cell.col, symbol: symbol)
@@ -61,6 +62,7 @@ public struct PuzzleView: View {
         .background(themes.theme.pageBackground)
         .navigationTitle("\(viewModel.format.rawValue) • \(viewModel.puzzleID.prefix(4))")
         .navigationBarTitleDisplayMode(.inline)
+        .tint(themes.theme.accent)
         .toolbar {
             if hints.isEnabled {
                 ToolbarItem(placement: .topBarTrailing) {
@@ -81,6 +83,8 @@ public struct PuzzleView: View {
             }
         }
         .task {
+            themes.refreshFromLocal()
+            hints.refreshFromLocal()
             await themes.refreshFromCloud()
             await hints.refreshFromCloud()
         }

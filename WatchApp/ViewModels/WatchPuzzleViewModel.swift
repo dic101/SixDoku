@@ -44,12 +44,15 @@ public final class WatchPuzzleViewModel: ObservableObject {
         return Validator.isValidMove(grid: gridState, row: cell.row, col: cell.col, symbol: symbol, format: format)
     }
 
-    public func applyMove(row: Int, col: Int, symbol: Int?) {
-        guard initialClues[row*6+col] == nil else { return }
+    /// Applies a move, returning false when a placed symbol is invalid.
+    /// Callers use the result for feedback (e.g. picker stays open + haptic).
+    @discardableResult
+    public func applyMove(row: Int, col: Int, symbol: Int?) -> Bool {
+        guard initialClues[row*6+col] == nil else { return false }
         if let symbol {
             guard Validator.isValidMove(grid: gridState, row: row, col: col, symbol: symbol, format: format) else {
-                // watchOS subtle haptic
-                return
+                HapticsService.error()
+                return false
             }
             gridState[row, col] = symbol
         } else {
@@ -59,6 +62,7 @@ public final class WatchPuzzleViewModel: ObservableObject {
             isCompleted = true
         }
         saveState()
+        return true
     }
 
     private func saveState() {

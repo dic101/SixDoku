@@ -5,7 +5,8 @@ import SharedServices
 /// Grid fills screen; tapping an editable cell pushes a big-number picker page.
 public struct WatchPuzzleView: View {
     @StateObject private var viewModel: WatchPuzzleViewModel
-    @StateObject private var themes = ThemeManager()
+    @StateObject private var themes = ThemeManager(defaultTheme: .volt)
+    @StateObject private var hints = HintsManager()
     public init(puzzle: PuzzleDefinition) {
         _viewModel = StateObject(wrappedValue: WatchPuzzleViewModel(puzzle: puzzle))
     }
@@ -57,9 +58,13 @@ public struct WatchPuzzleView: View {
         .navigationDestination(isPresented: $viewModel.pickerPresented) {
             WatchNumberPickerView(viewModel: viewModel)
                 .environmentObject(themes)
+                .environmentObject(hints)
         }
         .task {
+            themes.refreshFromLocal()
+            hints.refreshFromLocal()
             await themes.refreshFromCloud()
+            await hints.refreshFromCloud()
         }
     }
 

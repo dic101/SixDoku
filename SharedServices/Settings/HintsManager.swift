@@ -40,6 +40,13 @@ public final class HintsManager: ObservableObject {
         settings.hintsEnabled = incoming
     }
 
+    /// Re-reads the local preference (see ThemeManager.refreshFromLocal).
+    public func refreshFromLocal() {
+        let local = settings.hintsEnabled
+        guard local != isEnabled else { return }
+        isEnabled = local
+    }
+
     private func push() async {
         var stats = persistence.loadUserStats() ?? UserStats()
         stats.hintsEnabled = isEnabled

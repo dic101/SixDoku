@@ -20,16 +20,19 @@ public final class ThemeManager: ObservableObject {
     private let settings: SettingsService
     private let cloudKit: any UserStatsSyncing
     private let persistence: PersistenceService
+    private let defaultTheme: AppTheme
 
     public init(
         settings: SettingsService = SettingsService(),
         cloudKit: any UserStatsSyncing = CloudKitService(),
-        persistence: PersistenceService = PersistenceService()
+        persistence: PersistenceService = PersistenceService(),
+        defaultTheme: AppTheme = .classic
     ) {
         self.settings = settings
         self.cloudKit = cloudKit
         self.persistence = persistence
-        self.theme = settings.themePreference
+        self.defaultTheme = defaultTheme
+        self.theme = settings.themePreference(defaultingTo: defaultTheme)
     }
 
     /// Sets the theme locally and pushes it to CloudKit (fire-and-forget).
@@ -48,6 +51,15 @@ public final class ThemeManager: ObservableObject {
               incoming != theme else { return }
         theme = incoming
         settings.themePreference = incoming
+    }
+
+    /// Re-reads the local preference. CloudKit pushes are fire-and-forget,
+    /// so screens appearing right after a Settings change must sync locally
+    /// first or they render one theme behind.
+    public func refreshFromLocal() {
+        let local = settings.themePreference(defaultingTo: defaultTheme)
+        guard local != theme else { return }
+        theme = local
     }
 
     private func push() async {

@@ -19,7 +19,14 @@ public final class HomeViewModel: ObservableObject {
     }
 
     public func resumePuzzle() -> PuzzleState? {
-        currentPuzzle
+        refresh()
+        return currentPuzzle
+    }
+
+    /// Reloads the latest saved puzzle (picks up progress made since init).
+    public func refresh() {
+        lastFormat = settings.formatPreference
+        currentPuzzle = syncManager.loadLatestPuzzleState()
     }
 
     public func newPuzzle(format: FormatType, difficulty: Difficulty) -> PuzzleDefinition {
